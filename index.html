@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorpresa 🎄</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Annie Use Your Telescope', sans-serif; /* Aplica la tipografía al cuerpo del documento */
+    }
+    #backgroundContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('Fondo.gif') no-repeat center center fixed;
+      background-size: cover;
+      z-index: 0;
+    }
+    #lightsImage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      max-height: 100%;
+      z-index: 1;
+    }
+    #curtain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: red;
+      z-index: 2;
+      transition: opacity 1s ease;
+    }
+    #revealText {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 1s ease, color 1s ease, font-size 1s ease; /* Añadido font-size a la transición */
+      text-align: center;
+      font-size: 36px; /* Ajusta el tamaño de la tipografía según tus preferencias */
+      color: white; /* Texto blanco */
+    }
+    #revealButtonContainer {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+    }
+    #revealButton {
+      padding: 10px 15px;
+      background-color: #800000; /* Color rojo oscuro */
+      color: #fff; /* Texto blanco */
+      border: 2px solid #fff; /* Bordes blancos */
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #backgroundAudio {
+      display: none; /* Oculto por defecto */
+    }
+    #rotatingImage {
+      position: fixed;
+      bottom: -500px; /* Posición inicial muy lejos en la parte inferior */
+      left: 10px;
+      width: auto;
+      max-height: 50%; /* Ajusta la altura máxima según tus preferencias */
+      transform-origin: bottom left;
+      transition: bottom 2s ease, transform 2s ease;
+    }
+    #santaImage {
+      position: fixed;
+      bottom: 10px; /* Posición en la parte inferior */
+      right: 10px; /* Posición en la parte derecha */
+      max-width: 50%; /* Ajusta el ancho máximo según tus preferencias */
+      height: auto;
+      animation: bounce 2s infinite alternate; /* Añadida animación */
+    }
+    #shareButtonContainer {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      display: none; /* Oculto por defecto */
+    }
+    #shareButton {
+      padding: 10px 15px;
+      background-color: #006400; /* Color verde oscuro */
+      color: #fff; /* Texto blanco */
+      border: 2px solid #fff; /* Bordes blancos */
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="backgroundContainer"></div>
+<img id="lightsImage" src="Luces.gif" alt="Luces">
+
+<div id="curtain"></div>
+
+<div id="revealText">
+  <p id="textLine1">La persona que te envió esto, te desea una </p>
+  <p id="textLine2"><span id="changingText1">FELIZ </span><span id="changingText2">NAVIDAD</span></p>
+</div>
+
+<div id="revealButtonContainer">
+  <button id="revealButton" onclick="revealText()">Revelar Sorpresa</button>
+</div>
+
+<audio id="backgroundAudio" loop>
+  <source src="feliznavidad.mp3" type="audio/mp3">
+  Tu navegador no soporta el tag de audio.
+</audio>
+
+<img id="rotatingImage" src="arbol.gif" alt="Árbol">
+<img id="santaImage" src="papanoel.gif" alt="Papá Noel">
+
+<div id="shareButtonContainer">
+  <button id="shareButton" onclick="shareLink()">Compartir</button>
+</div>
+
+<script>
+  function revealText() {
+    var curtain = document.getElementById("curtain");
+    var revealText = document.getElementById("revealText");
+    var revealButtonContainer = document.getElementById("revealButtonContainer");
+    var backgroundAudio = document.getElementById("backgroundAudio");
+    var rotatingImage = document.getElementById("rotatingImage");
+    var santaImage = document.getElementById("santaImage");
+    var shareButtonContainer = document.getElementById("shareButtonContainer");
+
+    curtain.style.opacity = 0;
+    revealText.style.opacity = 1;
+    revealButtonContainer.style.display = "none"; // Oculta el contenedor del botón
+
+    // Inicia la animación de cambio de color del texto "FELIZ" y "NAVIDAD"
+    changeTextColor();
+
+    // Reproduce el audio de fondo
+    backgroundAudio.play();
+
+    // Inicia la animación de entrada de las imágenes
+    rotatingImage.style.bottom = "10px"; // Posición final
+    rotatingImage.style.transform = "rotateX(360deg)";
+    santaImage.style.bottom = "10px"; // Posición final
+
+    // Muestra el botón de compartir
+    shareButtonContainer.style.display = "block";
+  }
+
+  function changeTextColor() {
+    var changingText1 = document.getElementById("changingText1");
+    var changingText2 = document.getElementById("changingText2");
+
+    setInterval(function() {
+      changingText1.style.color = (changingText1.style.color === "red") ? "green" : "red";
+      changingText2.style.color = (changingText2.style.color === "red") ? "green" : "red";
+    }, 1000); // Cambia de color cada 1000 milisegundos (1 segundo)
+  }
+
+  function shareLink() {
+    // Obtén el enlace actual de la página
+    var currentURL = window.location.href;
+
+    // Intenta abrir el diálogo de compartir si el navegador lo permite
+    if (navigator.share) {
+      navigator.share({
+        title: 'Te mando una Sorpresa',
+        text: 'Sorpresa a fin de año',
+        url: currentURL,
+      })
+        .then(() => console.log('Enlace compartido con éxito'))
+        .catch((error) => console.error('Error al compartir el enlace', error));
+    } else {
+      // Muestra un mensaje si el navegador no admite la función de compartir
+      alert('Tu navegador no admite la función de compartir.');
+    }
+  }
+</script>
+
+</body>
+</html>
